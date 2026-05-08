@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>AI Fitness Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f1f5f9;
+}
+
+/* PAGE */
+
+.page{
+    display:none;
+    min-height:100vh;
+    padding:40px;
+}
+
+/* LOGIN PAGE */
+
+.login-page{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:
+    linear-gradient(rgba(15,23,42,0.7),
+    rgba(15,23,42,0.8)),
+    url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&auto=format&fit=crop');
+
+    background-size:cover;
+    background-position:center;
+}
+
+.login-box{
+    width:100%;
+    max-width:450px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.15);
+    padding:45px;
+    border-radius:30px;
+    color:white;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+
+.logo{
+    width:90px;
+    height:90px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:38px;
+    margin:auto;
+    margin-bottom:25px;
+}
+
+.login-box h1{
+    text-align:center;
+    font-size:38px;
+    margin-bottom:10px;
+}
+
+.login-box p{
+    text-align:center;
+    color:#cbd5e1;
+    margin-bottom:30px;
+}
+
+/* INPUTS */
+
+.input-box{
+    margin-bottom:20px;
+}
+
+.input-box input{
+    width:100%;
+    padding:16px;
+    border:none;
+    outline:none;
+    border-radius:14px;
+    background:rgba(255,255,255,0.12);
+    color:white;
+    font-size:16px;
+}
+
+.input-box input::placeholder{
+    color:#cbd5e1;
+}
+
+/* BUTTON */
+
+.btn{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+    color:white;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:translateY(-2px);
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    background:#f8fafc;
+    padding-bottom:100px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.topbar h1{
+    font-size:34px;
+    color:#0f172a;
+}
+
+.topbar p{
+    color:#64748b;
+}
+
+.profile{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    background:#3b82f6;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:22px;
+}
+
+/* CARDS */
+
+.card{
+    background:white;
+    border-radius:24px;
+    padding:25px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+}
+
+.row{
+    display:flex;
+    gap:20px;
+}
+
+.small-card{
+    flex:1;
+    background:white;
+    border-radius:24px;
+    padding:25px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(0,0,0,0.06);
+}
+
+.metric{
+    font-size:34px;
+    font-weight:700;
+    margin-top:12px;
+    color:#0f172a;
+}
+
+.label{
+    color:#64748b;
+}
+
+/* PROGRESS */
+
+.progress{
+    width:100%;
+    height:12px;
+    background:#e2e8f0;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:15px;
+}
+
+.progress div{
+    height:100%;
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);
+}
+
+/* GRAPH */
+
+.graph{
+    height:180px;
+    display:flex;
+    align-items:flex-end;
+    gap:15px;
+    margin-top:25px;
+}
+
+.bar{
+    flex:1;
+    background:linear-gradient(180deg,#3b82f6,#8b5cf6);
+    border-radius:12px 12px 0 0;
+}
+
+/* NAVIGATION */
+
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    height:75px;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.08);
+}
+
+.nav-btn{
+    font-size:28px;
+    cursor:pointer;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.page{
+    padding:20px;
+}
+
+.row{
+    flex-direction:column;
+}
+
+.login-box{
+    padding:30px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN PAGE -->
+
+<div class="page login-page" id="page0">
+
+<div class="login-box">
+
+<div class="logo">💪</div>
+
+<h1>Welcome Back</h1>
+
+<p>Login to your AI Fitness Dashboard</p>
+
+<div class="input-box">
+<input type="text"
+id="username"
+placeholder="Enter Username">
+</div>
+
+<div class="input-box">
+<input type="password"
+id="password"
+placeholder="Enter Password">
+</div>
+
+<button class="btn" onclick="login()">
+Login
+</button>
+
+<br><br>
+
+<button class="btn"
+onclick="showPage(4)">
+Signup
+</button>
+
+</div>
+
+</div>
+
+<!-- HOME PAGE -->
+
+<div class="page dashboard" id="page1">
+
+<div class="topbar">
+
+<div>
+<h1>Hello 👋</h1>
+<p>Your health summary today</p>
+</div>
+
+<div class="profile">P</div>
+
+</div>
+
+<div class="card">
+
+<h2>Daily Steps</h2>
+
+<div class="metric">8,547</div>
+
+<div class="progress">
+<div style="width:85%"></div>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="small-card">
+❤️
+<div class="metric">78</div>
+<div class="label">Heart Rate</div>
+</div>
+
+<div class="small-card">
+🩸
+<div class="metric">98%</div>
+<div class="label">SpO2</div>
+</div>
+
+<div class="small-card">
+🔥
+<div class="metric">532</div>
+<div class="label">Calories</div>
+</div>
+
+<div class="small-card">
+😴
+<div class="metric">7.5h</div>
+<div class="label">Sleep</div>
+</div>
+
+</div>
+
+<br>
+
+<div class="card">
+
+<h2>Water Intake 💧</h2>
+
+<div class="metric">6 / 8 Glasses</div>
+
+<div class="progress">
+<div style="width:75%"></div>
+</div>
+
+</div>
+
+</div>
+
+<!-- FITNESS PAGE -->
+
+<div class="page dashboard" id="page2">
+
+<div class="topbar">
+
+<div>
+<h1>Fitness Goals</h1>
+<p>Workout & BMI Tracker</p>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="card" style="flex:1;">
+
+<h2>Workout Progress</h2>
+
+<br>
+
+<p>🏃 Running - 4km</p>
+<br>
+
+<p>🚴 Cycling - 8km</p>
+<br>
+
+<p>💪 Workout - 1hr</p>
+
+</div>
+
+<div class="card" style="flex:1;">
+
+<h2>BMI Calculator</h2>
+
+<br>
+
+<input id="weight"
+type="number"
+placeholder="Weight (kg)"
+style="width:100%;padding:15px;border:none;border-radius:12px;background:#f1f5f9;margin-bottom:10px;">
+
+<input id="height"
+type="number"
+placeholder="Height (cm)"
+style="width:100%;padding:15px;border:none;border-radius:12px;background:#f1f5f9;">
+
+<br><br>
+
+<button class="btn"
+onclick="calcBMI()">
+Calculate BMI
+</button>
+
+<div id="bmiResult"
+style="margin-top:15px;font-weight:600;">
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- PROGRESS PAGE -->
+
+<div class="page dashboard" id="page3">
+
+<div class="topbar">
+
+<div>
+<h1>Health Progress</h1>
+<p>Weekly analytics</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Weekly Report</h2>
+
+<div class="graph">
+
+<div class="bar" style="height:60%"></div>
+<div class="bar" style="height:80%"></div>
+<div class="bar" style="height:75%"></div>
+<div class="bar" style="height:100%"></div>
+<div class="bar" style="height:70%"></div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>AI Suggestions 🤖</h2>
+
+<br>
+
+<p>✔ Drink more water</p>
+<br>
+
+<p>✔ Sleep before 11 PM</p>
+<br>
+
+<p>✔ Walk daily</p>
+
+</div>
+
+</div>
+
+<!-- SIGNUP PAGE -->
+
+<div class="page login-page" id="page4">
+
+<div class="login-box">
+
+<div class="logo">🚀</div>
+
+<h1>Create Account</h1>
+
+<p>Join your smart fitness journey</p>
+
+<div class="input-box">
+<input type="text"
+placeholder="Full Name">
+</div>
+
+<div class="input-box">
+<input type="email"
+placeholder="Email Address">
+</div>
+
+<div class="input-box">
+<input type="password"
+placeholder="Create Password">
+</div>
+
+<button class="btn"
+onclick="showPage(0)">
+Create Account
+</button>
+
+</div>
+
+</div>
+
+<!-- BOTTOM NAVIGATION -->
+
+<div class="bottom-nav">
+
+<div class="nav-btn"
+onclick="showPage(1)">🏠</div>
+
+<div class="nav-btn"
+onclick="showPage(2)">💪</div>
+
+<div class="nav-btn"
+onclick="showPage(3)">📈</div>
+
+<div class="nav-btn"
+onclick="showPage(4)">👤</div>
+
+</div>
+
+<script>
+
+const pages =
+document.querySelectorAll(".page");
+
+/* SHOW PAGE */
+
+function showPage(index){
+
+pages.forEach((page)=>{
+
+page.style.display = "none";
+
+});
+
+pages[index].style.display = "block";
+
+}
+
+/* LOGIN */
+
+function login(){
+
+let user =
+document.getElementById("username").value;
+
+let pass =
+document.getElementById("password").value;
+
+if(
+(user === "Abhishek" && pass === "987654321") ||
+(user === "Pranit" && pass === "12345678")
+){
+
+showPage(1);
+
+}
+else{
+
+alert("Invalid Username or Password");
+
+}
+
+}
+
+/* BMI */
+
+function calcBMI(){
+
+let weight =
+document.getElementById("weight").value;
+
+let height =
+document.getElementById("height").value / 100;
+
+let bmi =
+(weight / (height * height)).toFixed(1);
+
+document.getElementById("bmiResult").innerHTML =
+"Your BMI: " + bmi;
+
+}
+
+/* DEFAULT PAGE */
+
+showPage(0);
+
+</script>
+
+</body>
+</html>
